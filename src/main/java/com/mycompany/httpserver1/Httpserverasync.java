@@ -1,7 +1,11 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * Simple Asynchronous HTTP Server
+ *
+ * This class implements a basic asynchronous HTTP server
+ * that can serve static files and handle custom services
+ * mapped to specific routes.
  */
+
 package com.mycompany.httpserver1;
 
 import java.net.*;
@@ -13,39 +17,57 @@ import java.util.Map;
 
 public class Httpserverasync {
 
+    /**
+     * Map of registered services associated with specific routes
+     */
     public static Map<String, Service> services = new HashMap();
-    private static String staticFilesPath = "webroot"; // ruta por defecto
 
+    /**
+     * Default path to static files
+     */
+    private static String staticFilesPath = "webroot";
+
+    /**
+     * Main entry point - starts the server.
+     */
     public static void main(String[] args) throws IOException, URISyntaxException {
         start(args);
     }
 
+    /**
+     * Registers a service (handler) for a specific HTTP path.
+     * @param path the requested path
+     * @param s the service implementation
+     */
     public static void get(String path, Service s){
         services.put(path, s);
     }
 
-    private static String invokeService(URI requri){
-        HttpRequest req = new HttpRequest(requri);
-        HttpResponse res = new HttpResponse();
-        String key="";
-        Service s = services.get(key);
-        return s.invoke(res, req);
-        //throw new UnsupportedOperationException("Not suppoted yet");
-    }
-
+    /**
+     * Configures the local path to static files.
+     * @param localFilesPath path where static files are stored
+     */
     public static void staticfiles(String localFilesPath){
         staticFilesPath = localFilesPath;
     }
 
+    /**
+     * Starts the server execution.
+     * @param args program arguments
+     */
     public static void start(String[] args){
         runServer(args);
     }
 
+    /**
+     * Initializes and runs the HTTP server.
+     * @param args program arguments
+     */
     private static void runServer(String[] args){
         try(ServerSocket serverSocket = new ServerSocket(35000)){
             boolean running = true;
             while(running){
-                System.out.println("Listo para recibir ...");
+                System.out.println("Ready to receive ...");
                 Socket clientSocket = serverSocket.accept();
                 handleClient(clientSocket);
             }
@@ -54,6 +76,11 @@ public class Httpserverasync {
         }
     }
 
+    /**
+     * Handles an individual client request.
+     * Reads the request, processes it and sends back the response.
+     * @param clientSocket the socket connected to the client
+     */
     private static void handleClient(Socket clientSocket){
         try(
                 PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
@@ -67,18 +94,18 @@ public class Httpserverasync {
             HttpRequest req = new HttpRequest(requri);
             HttpResponse res = new HttpResponse();
 
-            System.out.println("Path solicitado: " + req.getPath());
+            System.out.println("Requested path: " + req.getPath());
 
             String outputLine;
 
-            // Verificar si existe un servicio registrado
+            // Check if a registered service exists for the path
             if(services.containsKey(req.getPath())){
                 Service s = services.get(req.getPath());
                 String result = s.invoke(res, req);
                 res.setBody(result);
                 outputLine = res.buildResponse();
             } else {
-                // Si no es servicio, intentar servir archivo estático
+                // If not a service, try to serve a static file
                 outputLine = serveStaticFile(req.getPath(), res);
             }
 
@@ -89,6 +116,12 @@ public class Httpserverasync {
         }
     }
 
+    /**
+     * Attempts to serve a static file from the configured directory.
+     * @param path the requested file path
+     * @param res the HTTP response object
+     * @return the full HTTP response as a string
+     */
     private static String serveStaticFile(String path, HttpResponse res){
         try {
             String filePath = "target/classes" + staticFilesPath + path;

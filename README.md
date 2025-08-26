@@ -87,7 +87,75 @@ You need to have the following installed:
 
 4. Search in the browser http://localhost:35000/index.html
 
-   ![index.html](src="https://github.com/user-attachments/assets/94258ca5-8e99-4395-93f1-662df66fd369" )
    ![index.html](https://github.com/user-attachments/assets/94258ca5-8e99-4395-93f1-662df66fd369)
 
+## Architecture
 
+   ![Architecture](https://github.com/user-attachments/assets/084fa004-77f2-4b05-92ff-72896095ac05)
+
+## 1. **HttpServer**
+
+### **Role:**
+Manages the lifecycle of the HTTP server, including handling incoming requests, storing static and dynamic REST endpoints, and routing requests to the appropriate handler.
+
+### **Responsibilities:**
+- Start and stop the server, listening on a specified port.
+- Accept incoming client connections and delegate request processing.
+- Store and manage static file paths for serving resources.
+- Register and store **GET** and **POST** request handlers using lambda functions.
+- Route incoming requests to the correct lambda function based on the HTTP method and path.
+
+### **Lambda Functions for Dynamic REST API:**
+- **`get(String path, BiFunction<HttpRequest, HttpResponse, String> restService)`**:
+    - Registers a lambda function to handle **GET** requests for a specific path.
+    - Examples from the code:
+      ```java
+      // Returns the value of the query parameter "name"
+      get("/hello", (res, req) -> req.getValue("name"));
+        
+      // Returns the value of PI as a string
+      get("/pi", (res, req) -> {
+      return String.valueOf(Math.PI);
+      });
+    ```
+
+---
+
+## 2. **HttpResponse**
+
+### **Role:**
+Handles the construction and sending of HTTP responses, including status codes, headers, and body content.
+
+### **Responsibilities:**
+- Set and manage HTTP status codes and messages.
+- Store and manage HTTP headers.
+- Store the response body.
+- Send the complete HTTP response to the client via a `PrintWriter`.
+
+---
+
+## 3. **HttpRequest**
+
+### **Role:**
+Processes and extracts query parameters from an HTTP request.
+
+### **Responsibilities:**
+- Parse query parameters from a URL-encoded string.
+- Provide access to query parameters via the `getQueryParam` method.
+- Decode query parameters to support special characters.
+
+
+
+## Built With
+
+[Maven](https://maven.apache.org/index.html) - Dependency Management
+
+[Git](https://git-scm.com) - Version Control System
+
+## Author
+
+Cesar Andres Borray Suarez - [AndresSu2342](https://github.com/AndresSu2342)
+
+### Date
+
+Date: 25/08/2025

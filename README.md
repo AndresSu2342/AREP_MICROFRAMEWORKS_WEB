@@ -52,8 +52,8 @@ You need to have the following installed:
 1. Clone the repository and navigate to the folder containing the `pom.xml` file using the following commands:
 
    ```sh
-   git clone https://github.com/Mar972310/AREP: `MICROFRAMEWORKS: `WEB.git
-   cd AREP: `MICROFRAMEWORKS: `WEB
+   git clone https://github.com/AndresSu2342/AREP_MICROFRAMEWORKS_WEB.git
+   cd AREP_MICROFRAMEWORKS_WEB
    ```
 
 2. Build the project:
@@ -65,28 +65,29 @@ You need to have the following installed:
    The console output should look something like this:
 
    ```sh
-   [INFO] Building jar: /Users/maritzamonsalvebautista/Downloads/AREP: `MICROFRAMEWORKS: `WEB/target/HttpServer-1.0-SNAPSHOT.jar
+   [INFO] Building jar: C:\Users\cesar.borray-s\Downloads\httpserver1\target\httpserver1-1.0-SNAPSHOT.jar
    [INFO] ------------------------------------------------------------------------
    [INFO] BUILD SUCCESS
    [INFO] ------------------------------------------------------------------------
-   [INFO] Total time:  7.042 s
-   [INFO] Finished at: 2025-02-06T21:44:52-05:00
+   [INFO] Total time:  5.460 s
+   [INFO] Finished at: 2025-08-25T23:39:05-05:00
    [INFO] ------------------------------------------------------------------------
    ```
 
 3. Run the application:
 
       ```sh
-      java -cp target/HttpServer-1.0-SNAPSHOT.jar edu.escuelaing.arep.WebApplication
+      java -cp target/httpserver1-1.0-SNAPSHOT.jar com.mycompany.httpserver1.WebApplication
       ```
    The console should display the following message:
       ```sh
-      Ready to receive ...
+      Listo para recibir ...
       ```
    You can now access static resources like `index.html` or other resources stored in the `resources/static` folder.
 
-4. Search in the browser http://localhost:35000/index.html, also http://localhost:35000/imagen1.png
+4. Search in the browser http://localhost:35000/index.html
 
-   ![index.html](/images/index.png)
-   ![index.html](/images/index2.png)
-   ![imagen](/images/image.png)
+   ![index.html](src="https://github.com/user-attachments/assets/94258ca5-8e99-4395-93f1-662df66fd369" )
+   ![index.html](https://github.com/user-attachments/assets/94258ca5-8e99-4395-93f1-662df66fd369)
+
+
